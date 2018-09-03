@@ -9,8 +9,8 @@ describe('book_manager_test', () => {
             method: 'POST',
             body: {
                 title: 'test_title_0',
-                authorId: 0,
-                image: '/images/100/0000',
+                author: 'test_title',
+                image: '/images/100/0000.jpg',
                 description: 'test_describe_0'
             }
         });
@@ -22,43 +22,29 @@ describe('book_manager_test', () => {
             uri: 'http://localhost:3000/newBooks',
             json: true,
             method: 'POST',
-            body: [
-                {
+            body: {books:JSON.stringify(
+                [{
                     title: 'test_title_1',
-                    authorId: 0,
+                    author: 'test_title',
                     image: '/images/100/1111',
                     description: 'test_describe_1'
                 },
                 {
                     title: 'test_title_2',
-                    authorId: 0,
+                    author: 'test_title',
                     image: '/images/100/2222',
                     description: 'test_describe_2'
                 },
                 {
                     title: 'test_title_3',
-                    authorId: 0,
+                    author: 'test_title',
                     image: '/images/100/3333',
                     description: 'test_describe_3'
                 }
-            ]
+            ])}
         });
         assert.equal(res.ok, true);
     });
-
-    it('/getBook', async () => {
-        let res = await request({
-            uri: 'http://localhost:3000/getBook',
-            json: true,
-            method: 'GET',
-            body: {
-                title: 'test_title_0',
-                authorId: 0
-            }
-        });
-        assert(res.data.description === 'test_describe_0');
-    });
-
 
     it('/getBooks', async () => {
         let res = await request({
@@ -66,10 +52,10 @@ describe('book_manager_test', () => {
             json: true,
             method: 'GET',
             body: {
-                authorId: 0
+                search: JSON.stringify({author: 'test_title'})
             }
         });
-        assert(res.data.length > 4);
+        assert(res.data.length >= 4);
     });
 
     it('/updateBook', async () => {
@@ -78,13 +64,10 @@ describe('book_manager_test', () => {
             json: true,
             method: 'PUT',
             body: {
-                find: {
-                    title: 'test_title_0',
-                    authorId: 0
-                },
-                set: {
+                id: 1,
+                set: JSON.stringify({
                     title: 'test_title_0_updated'
-                }
+                })
             }
         });
         assert.equal(res.ok, true);
@@ -95,10 +78,9 @@ describe('book_manager_test', () => {
             uri: 'http://localhost:3000/getBook',
             json: true,
             body: {
-                authorId: 0,
-                title: 'test_title_0_updated'
+                search: JSON.stringify({title: 'test_title_0_updated'})
             }
         });
-        assert(res.data.description === 'test_describe_0');
+        assert(res.data.title === 'test_title_0_updated');
     });
 });
