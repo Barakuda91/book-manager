@@ -1,6 +1,7 @@
 module.exports.newBook = async (ctx) => {
-    console.log(ctx.request.body);
-    ctx.body = {"ccc":"ddd"}
+    ctx.body = await ctx.book.newBook(ctx);
 };
 
-module.exports.newBooks = async (ctx) => {};
+module.exports.newBooks = async (ctx) => {
+    ctx.body = await ctx.book.newBooks(ctx);
+};

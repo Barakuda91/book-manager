@@ -1,2 +1,3 @@
-module.exports.updateBook = async (ctx) => {};
-module.exports.updateBooks = async (ctx) => {};
+module.exports.updateBook = async (ctx) => {
+    ctx.body = await ctx.book.updateBook(ctx);
+};
